@@ -155,7 +155,7 @@ This first example shows a somewhat contrived way of having a task retrieve work
 
 In this case, the work is to get a number from the queue and have a loop count up to that number. It prints to the console when the loop begins, and again to output the total. This program demonstrates one way for multiple synchronous tasks to process the work in a queue.
 
-The program named `example_1.py` in the repository is listed in full below:
+The program named [example_1.py](src/example_1.py) in the repository is listed in full below:
 
 ```python
 import queue
@@ -236,7 +236,7 @@ The interesting part is that control can be given _back_ to the generator functi
 
 The `while` loop in [`main()`](https://realpython.com/python-main-function/) takes advantage of this when it calls `next(t)`. This statement restarts the task at the point where it previously yielded. All of this means that you’re in control when the context switch happens: when the `yield` statement is executed in `task()`.
 
-This is a form of cooperative multitasking. The program is yielding control of its current context so that something else can run. In this case, it allows the `while` loop in `main()` to run two instances of `task()` as a generator function. Each instance consumes work from the same queue. This is sort of clever, but it’s also a lot of work to get the same results as the first program. The program `example_2.py` demonstrates this simple [concurrency](https://realpython.com/python-concurrency/) and is listed below:
+This is a form of cooperative multitasking. The program is yielding control of its current context so that something else can run. In this case, it allows the `while` loop in `main()` to run two instances of `task()` as a generator function. Each instance consumes work from the same queue. This is sort of clever, but it’s also a lot of work to get the same results as the first program. The program [example_2.py](src/example_2.py) demonstrates this simple [concurrency](https://realpython.com/python-concurrency/) and is listed below:
 
 ```python
 import queue
@@ -377,7 +377,7 @@ Here’s what’s different in the code above:
 - **Line 3** imports the the `Timer` code from the `codetiming` module.
 - **Line 6** creates the `Timer` instance used to measure the time taken for each iteration of the task loop.
 - **Line 10** starts the `timer` instance
-- **Line 11** changes `task()` to include a `time.sleep(delay)` to mimic an IO delay. This replaces the `for` loop that did the counting in `example_1.py`.
+- **Line 11** changes `task()` to include a `time.sleep(delay)` to mimic an IO delay. This replaces the `for` loop that did the counting in [example_1.py](src/example_1.py).
 - **Line 12** stops the `timer` instance and outputs the elapsed time since `timer.start()` was called.
 - **Line 30** creates a `Timer` [context manager](https://realpython.com/python-with-statement/) that will output the elapsed time the entire while loop took to execute.
 
@@ -421,7 +421,7 @@ The event loop is at the heart of the Python async system. It runs all the code,
 
 **Note:** An asynchronous program runs in a single thread of execution. The context switch from one section of code to another that would affect data is completely in your control. This means you can atomize and complete all shared memory data access before making a context switch. This simplifies the shared memory problem inherent in threaded code.
 
-The `example_4.py` code is listed below:
+The [example_4.py](src/example_4.py) code is listed below:
 
 ```python
 import asyncio
@@ -461,7 +461,7 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
-Here’s what’s different between this program and `example_3.py`:
+Here’s what’s different between this program and [example_3.py](src/example_3.py):
 
 - **Line 1** imports `asyncio` to gain access to Python async functionality. This replaces the `time` import.
 - **Line 2** imports the the `Timer` code from the `codetiming` module.
@@ -493,7 +493,7 @@ Total elapsed time: 17.0
 
 This indicates that `await asyncio.sleep(delay)` is non-blocking, and that other work is being done.
 
-At the end of the program, you’ll notice the total elapsed time is essentially half the time it took for `example_3.py` to run. That’s the advantage of a program that uses Python async features! Each task was able to run `await asyncio.sleep(delay)` at the same time. The total execution time of the program is now less than the sum of its parts. You’ve broken away from the synchronous model!
+At the end of the program, you’ll notice the total elapsed time is essentially half the time it took for [example_3.py](src/example_3.py) to run. That’s the advantage of a program that uses Python async features! Each task was able to run `await asyncio.sleep(delay)` at the same time. The total execution time of the program is now less than the sum of its parts. You’ve broken away from the synchronous model!
 
 ### Synchronous (Blocking) HTTP Calls[](#synchronous-blocking-http-calls "Permanent link")
 
@@ -501,7 +501,7 @@ The next version of the program is kind of a step forward as well as a step back
 
 The program has been modified to import [the wonderful `requests` module](https://realpython.com/python-requests/) to make the actual HTTP requests. Also, the queue now contains a list of URLs, rather than numbers. In addition, `task()` no longer increments a counter. Instead, `requests` gets the contents of a URL retrieved from the queue, and prints how long it took to do so.
 
-The `example_5.py` code is listed below:
+The [example_5.py](src/example_5.py) code is listed below:
 
 ```python
 import queue
@@ -565,7 +565,7 @@ Here’s what’s happening in this program:
 - **Line 3** imports the the `Timer` code from the `codetiming` module.
 - **Line 6** creates the `Timer` instance used to measure the time taken for each iteration of the task loop.
 - **Line 11** starts the `timer` instance
-- **Line 12** introduces a delay, similar to `example_3.py`. However, this time it calls `session.get(url)`, which returns the contents of the URL retrieved from `work_queue`.
+- **Line 12** introduces a delay, similar to [example_3.py](src/example_3.py). However, this time it calls `session.get(url)`, which returns the contents of the URL retrieved from `work_queue`.
 - **Line 13** stops the `timer` instance and outputs the elapsed time since `timer.start()` was called.
 - **Lines 23 to 32** put the list of URLs into `work_queue`.
 - **Line 39** creates a `Timer` context manager that will output the elapsed time the entire while loop took to execute.
@@ -603,7 +603,7 @@ This version of the program modifies the previous one to use Python async featur
 
 The tasks here have been modified to remove the `yield` call since the code to make the HTTP `GET` call is no longer blocking. It also performs a context switch back to the event loop.
 
-The `example_6.py` program is listed below:
+The [example_6.py](src/example_6.py) program is listed below:
 
 ```python
 import asyncio
